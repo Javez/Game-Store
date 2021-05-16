@@ -1,0 +1,43 @@
+﻿@model GameStore.Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "JavezGameStore: форма замовлення";
+}
+
+<h2>Оформити замовлення зараз</h2>
+<p>Будь-ласка введіть ваші контактні данні, і ми одразу відправимо товар!</p>
+
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary();
+    <h3>Данні</h3>
+    <div class="form-group">
+        <label>Ваше ім'я:</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    <h3>Адреса доставки</h3>
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name" && property.PropertyName != "GiftWrap")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+            </div>
+        }
+    }
+
+    <h3>Опції</h3>
+    <div class="checkbox">
+        <label>
+            @Html.EditorFor(x => x.GiftWrap)
+            Використати подарункову упаковку?
+        </label>
+    </div>
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Обробити замовлення" />
+    </div>
+}
